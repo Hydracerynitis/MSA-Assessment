@@ -1,9 +1,10 @@
 import React,{useState} from 'react';
 import logo from './logo.svg';
-import './App.css';
-import {Header,userstate} from './stories/Header/Header';
+import {Header} from './stories/Header/Header';
+import {userstate} from './stories/Header/UserState';
 import {Button} from './stories/Button';
 import { Footer } from './stories/Footer/Footer';
+import './App.css';
 
 function App() {
   const [state, setState] =React.useState<userstate>(userstate.LOGIN);

@@ -1,6 +1,6 @@
 import { createStyles, Grid, IconButton, makeStyles, Theme, Typography } from "@material-ui/core";
 import React from "react";
-import { userstate } from "../Header/Header";
+import { userstate } from "../Header/UserState";
 import GitHubIcon from '@material-ui/icons/GitHub';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';

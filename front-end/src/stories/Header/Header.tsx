@@ -4,13 +4,7 @@ import { StatePopover } from './StatePopover';
 import { AccountMenu } from './AccountMenu';
 import { AppBar, Toolbar, Typography,Button, IconButton, createStyles, makeStyles, Theme, Drawer, Grid} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-
-export enum userstate{
-  LOGIN="LogIn",
-  NORMAL="Normal",
-  ClOSECONTACT="Close Contact",
-  INFECTED="Infected"
-}
+import {userstate, stateColor} from './UserState';
 
 export interface User{
   UserState?: userstate,
@@ -19,26 +13,7 @@ export interface User{
 }
 
 export function useStyles(state?: userstate){
-  var Color: string;
-  switch(state){
-    case undefined:
-    case userstate.LOGIN:{
-      Color="#039be5";
-    }
-    break;
-    case userstate.NORMAL:{
-      Color="#4caf50"
-    }
-    break;
-    case userstate.ClOSECONTACT:{
-      Color="#ff8f00"
-    }
-    break;
-    case userstate.INFECTED:{
-      Color="#e65100"
-    }
-    break;
-  }
+  var Color: string=stateColor(state);
   const Styles=makeStyles((theme: Theme) =>(
     createStyles({
       root: {

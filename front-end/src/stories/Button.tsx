@@ -2,6 +2,7 @@ import React from 'react';
 import './button.css';
 
 interface ButtonProps {
+  className?: string;
   /**
    * Is this the principal call to action on the page?
    */
@@ -28,6 +29,7 @@ interface ButtonProps {
  * Primary UI component for user interaction
  */
 export const Button = ({
+  className,
   primary = false,
   size = 'medium',
   backgroundColor,
@@ -38,7 +40,7 @@ export const Button = ({
   return (
     <button
       type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
+      className={['storybook-button', `storybook-button--${size}`, mode, className].join(' ')}
       style={{ backgroundColor }}
       {...props}
     >

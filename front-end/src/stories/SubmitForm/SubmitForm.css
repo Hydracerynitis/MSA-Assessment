@@ -1,0 +1,13 @@
+.form_container {
+    max-width: 600px !important;
+    margin: auto;
+    padding: 30px;
+}
+
+.form_button {
+    margin: auto;
+    margin-top: 40px;
+}
+.title {
+    margin-bottom: 20px;
+}

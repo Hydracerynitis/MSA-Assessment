@@ -1,8 +1,9 @@
 import React from "react";
-import { useStyles,userstate } from "./Header";
+import { useStyles} from "./Header";
 import { IconButton, Popover, Typography,Card, CardContent, Divider } from "@material-ui/core";
 import NotificationImportantOutlinedIcon from '@material-ui/icons/NotificationImportantOutlined';
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
+import { userstate } from "./UserState";
 
 interface PopoverProp{
     UserState?:userstate
