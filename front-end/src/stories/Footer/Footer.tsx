@@ -1,32 +1,13 @@
 import { createStyles, Grid, IconButton, makeStyles, Theme, Typography } from "@material-ui/core";
 import React from "react";
-import { userstate } from "../Header/UserState";
+import { userstate,stateColor } from "../Header/UserState";
 import GitHubIcon from '@material-ui/icons/GitHub';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 
 
 export function useStyles(state?: userstate){
-    var Color: string;
-    switch(state){
-      case undefined:
-      case userstate.LOGIN:{
-        Color="#039be5";
-      }
-      break;
-      case userstate.NORMAL:{
-        Color="#4caf50"
-      }
-      break;
-      case userstate.ClOSECONTACT:{
-        Color="#ff8f00"
-      }
-      break;
-      case userstate.INFECTED:{
-        Color="#e65100"
-      }
-      break;
-    }
+    var Color=stateColor(state);
     const Styles=makeStyles((theme: Theme) =>(
       createStyles({
         root: {
