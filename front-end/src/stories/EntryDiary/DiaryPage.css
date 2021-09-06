@@ -1,0 +1,15 @@
+.container {
+    margin: auto;
+    padding: 30px;
+}
+.title {
+    margin: auto;
+    margin-bottom: 50px;
+    align-self: center;
+}
+.bodyContainer{
+    margin: 1em;
+}
+.button{
+    margin-top: 25px;
+}

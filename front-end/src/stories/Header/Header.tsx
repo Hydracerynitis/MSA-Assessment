@@ -60,7 +60,7 @@ export const Header=(prop:User={UserState:userstate.LOGIN,Name:"",ImgUrl:""})=> 
           </Typography>
           {login && (
             <div>
-              <Button color="inherit">Login</Button>
+              <Button color="inherit">Use GitHub to Login</Button>
             </div>
           )}
           {!login && (

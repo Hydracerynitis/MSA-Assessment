@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, createStyles, Divider, IconButton, makeStyles, Menu, MenuItem, Theme } from "@material-ui/core";
+import { Avatar, createStyles, Divider, IconButton, ListItem, ListItemAvatar, ListItemText, makeStyles, Menu, MenuItem, Theme } from "@material-ui/core";
 import { deepPurple } from "@material-ui/core/colors";
 
 const useStyles=makeStyles((theme: Theme) =>(
@@ -37,7 +37,14 @@ export const AccountMenu= ({Name,ImgUrl}:MenuProp)=> {
       </IconButton>
       <Menu anchorEl={anchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right',}} keepMounted
         transformOrigin={{vertical: 'top',horizontal: 'right',}} open={open} onClose={handleClose}>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem>
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar className={classes.avatar} alt={Name} src={ImgUrl}>{getName(Name)}</Avatar>
+            </ListItemAvatar>
+            <ListItemText>Hi! {Name===undefined || Name.trim()==="" ? "New Zealander": Name}<br/>Welcome Back!</ListItemText>
+          </ListItem>
+        </MenuItem>
         <Divider />
         <MenuItem onClick={handleClose}>Log Out</MenuItem>
       </Menu>
@@ -45,17 +52,18 @@ export const AccountMenu= ({Name,ImgUrl}:MenuProp)=> {
 }
 
 function getName(Name?:string){
-  if (Name===undefined || Name===""){
+  if (Name===undefined || Name.trim()===""){
     return("NZ");
   }
   else{
-    let array:string[]=Name.split(" ");
+    const name=Name.trim()
+    let array:string[]=name.split(" ");
     if(array.length<=1){
-      if(Name.length<=1){
-        return(Name[0].toUpperCase())
+      if(name.length<=1){
+        return(name[0].toUpperCase())
       }
       else{
-        return(Name[0].toUpperCase()+Name[1])
+        return(name[0].toUpperCase()+name[1])
       }
     }
     return(array[0][0].toUpperCase()+array[array.length-1][0].toUpperCase())
