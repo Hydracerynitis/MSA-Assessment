@@ -23,7 +23,7 @@ export const SidebarLogIn = () => {
     return (
       <div className={classes.list}>
         <List>
-          <ListItem button href="" component={Link}>
+          <ListItem button href="/Home" component={Link}>
             <ListItemIcon >
               <HomeIcon />
             </ListItemIcon >
@@ -60,7 +60,7 @@ export const SidebarLogOut = () => {
   return (
     <div className={classes.list}>
       <List>
-        <ListItem button href="" component={Link}>
+        <ListItem button href="/Home" component={Link}>
           <ListItemIcon >
             <HomeIcon />
           </ListItemIcon >
