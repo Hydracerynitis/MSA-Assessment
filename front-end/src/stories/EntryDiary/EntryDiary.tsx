@@ -21,8 +21,7 @@ const createStyle = makeStyles((theme: Theme) =>(
     createStyles({
         root: {
             flexShrink: 0,
-            width:"100%"
-            
+            width:"100%"           
         },
         container: {
             maxHeight: 500,

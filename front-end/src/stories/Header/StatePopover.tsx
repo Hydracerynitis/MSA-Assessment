@@ -56,7 +56,7 @@ function NoticeIcon(s?:userstate){
     }
 }
 
-const Color = (s?:userstate) =>{  
+export const Color = (s?:userstate) =>{  
     switch(s){
         case undefined:
         case userstate.LOGIN:{

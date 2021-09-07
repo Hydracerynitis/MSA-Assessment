@@ -4,7 +4,6 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Button } from "../Button";
 import { userstate,stateColor } from "../Header/UserState";
 import "./SubmitForm.css";
-import { error } from "console";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

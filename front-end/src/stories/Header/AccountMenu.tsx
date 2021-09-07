@@ -42,7 +42,7 @@ export const AccountMenu= ({Name,ImgUrl}:MenuProp)=> {
             <ListItemAvatar>
               <Avatar className={classes.avatar} alt={Name} src={ImgUrl}>{getName(Name)}</Avatar>
             </ListItemAvatar>
-            <ListItemText>Hi! {Name===undefined || Name.trim()==="" ? "New Zealander": Name}<br/>Welcome Back!</ListItemText>
+            <ListItemText>Hi! {Name===undefined || Name.trim()==="" ? "New Zealanders": Name}<br/>Welcome Back!</ListItemText>
           </ListItem>
         </MenuItem>
         <Divider />

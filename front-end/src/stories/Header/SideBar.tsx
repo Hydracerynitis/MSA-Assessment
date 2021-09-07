@@ -29,13 +29,13 @@ export const SidebarLogIn = () => {
             </ListItemIcon >
             <ListItemText className={classes.listText} primary="Home" />
           </ListItem>
-          <ListItem button  href="" component={Link}>
+          <ListItem component={Link}>
             <ListItemIcon>
               <LockOutlinedIcon />
             </ListItemIcon> 
             <ListItemText className={classes.listText} primary="Require Log In"/>
           </ListItem>
-          <ListItem button  href="" component={Link}>
+          <ListItem component={Link}>
             <ListItemIcon>
               <LockOutlinedIcon />
             </ListItemIcon> 
@@ -66,13 +66,13 @@ export const SidebarLogOut = () => {
           </ListItemIcon >
           <ListItemText className={classes.listText} primary="Home" />
         </ListItem>
-        <ListItem button  href="" component={Link}>
+        <ListItem button  href="/Submit" component={Link}>
           <ListItemIcon>
             <ArrowUpwardIcon />
           </ListItemIcon> 
           <ListItemText className={classes.listText} primary="Submit Entry"/>
         </ListItem>
-        <ListItem button  href="" component={Link}>
+        <ListItem button  href="/Entry" component={Link}>
           <ListItemIcon>
             <LibraryBooksOutlinedIcon />
           </ListItemIcon> 

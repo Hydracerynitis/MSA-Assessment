@@ -5,7 +5,7 @@ import {SubmitForm} from './SubmitForm';
 import { userstate } from '../Header/UserState';
 
 export default {
-  title: 'UI Component/SubmitForm',
+  title: 'Page/SubmitForm',
   component: SubmitForm,
 
 } as ComponentMeta<typeof SubmitForm>;
