@@ -8,6 +8,8 @@
     align-self: center;
 }
 .bodyContainer{
+    padding-top: 50px;
+    text-align: center;
     margin: 1em;
 }
 .button{

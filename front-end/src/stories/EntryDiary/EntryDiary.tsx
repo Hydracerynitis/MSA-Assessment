@@ -7,7 +7,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import './EntryDiary.css'
 
-interface Entry{
+export interface Entry{
     Location:string,
     Address:string,
     Arrive:string,

@@ -19,6 +19,7 @@ const createStyle = makeStyles((theme: Theme) =>(
             padding:"auto"
         },
         title:{
+            paddingTop:"50px",
             paddingBottom:"50px"
         },
         optionLow:{
