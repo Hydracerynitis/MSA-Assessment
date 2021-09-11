@@ -66,11 +66,5 @@
     "@types/react": "^17.0.19",
     "@types/react-router-dom": "^5.1.8",
     "jest": "^27.1.0"
-  },
-  "jest": {
-    "testPathIgnorePatterns": [
-      "<rootDir>/src/",
-      "<rootDir>/node_modules/"
-    ]
   }
 }
