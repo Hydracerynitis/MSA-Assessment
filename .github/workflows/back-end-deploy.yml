@@ -17,6 +17,10 @@ jobs:
         working-directory: "./back-end" 
 
     steps:
+    # checkout the repo
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+      
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
       with:
