@@ -11,9 +11,9 @@ namespace back_end.Model
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
         [Required]
-        public string Address { get; set; }
+        public string Address { get; set; } = default!;
         public bool Interest { get; set; } = false;
         public ICollection<Entry> Entries { get; set; } = new List<Entry>();
     }

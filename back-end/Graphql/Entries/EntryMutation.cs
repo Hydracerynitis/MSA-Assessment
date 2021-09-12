@@ -41,6 +41,7 @@ namespace back_end.Graphql.Entries
                 entry.Destination = await context.Destinations.FindAsync(new object[] { int.Parse(input.DestinationId), cancellationToken });
                 entry.DestinationId = entry.Destination.Id;
             }
+            context.Entries.Add(entry);
             await context.SaveChangesAsync(cancellationToken);
             return entry;
         }

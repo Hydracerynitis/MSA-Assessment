@@ -20,9 +20,9 @@ namespace back_end.Graphql.AppUsers
         {
             return context.AppUsers;
         }
-        public AppUser GetAppUser(int Id,[ScopedService] AppDbContext context)
+        public AppUser GetAppUser([GraphQLType(typeof(NonNullType<IdType>))] string id, [ScopedService] AppDbContext context)
         {
-            return context.AppUsers.Find(Id);
+            return context.AppUsers.Find(int.Parse(id));
         }
         [UseAppDbContext]
         [Authorize]

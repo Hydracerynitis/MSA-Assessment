@@ -11,9 +11,9 @@ namespace back_end.Model
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Name { get; set; }
-        public string ImgUrl { get; set; }
-        public string Github { get; set; }
+        public string Name { get; set; } = default!;
+        public string ImgUrl { get; set; } = default!;
+        public string Github { get; set; } = default!;
         [Required]
         public AppUserstate state { get; set; }
         public ICollection<Entry> Entries { get; set; } = new List<Entry>();

@@ -19,9 +19,9 @@ namespace back_end.Graphql.Destinations
             return context.Destinations;
         }
         [UseAppDbContext]
-        public Destination GetDestination(int id, [ScopedService] AppDbContext context)
+        public Destination GetDestination([GraphQLType(typeof(NonNullType<IdType>))] string id, [ScopedService] AppDbContext context)
         {
-            return context.Destinations.Find(id);
+            return context.Destinations.Find(int.Parse(id));
         }
     }
 }

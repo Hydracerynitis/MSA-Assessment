@@ -10,9 +10,9 @@ namespace back_end.Data
     public class AppDbContext: DbContext
     {
         public AppDbContext(DbContextOptions options) : base(options) { }
-        public DbSet<AppUser> AppUsers { get; set; }
-        public DbSet<Destination> Destinations { get; set; }
-        public DbSet<Entry> Entries { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; } = default!;
+        public DbSet<Destination> Destinations { get; set; } = default!;
+        public DbSet<Entry> Entries { get; set; } = default!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Entry>().HasOne(e => e.AppUser).WithMany(u => u.Entries).HasForeignKey(e => e.AppUserId).OnDelete(DeleteBehavior.NoAction);

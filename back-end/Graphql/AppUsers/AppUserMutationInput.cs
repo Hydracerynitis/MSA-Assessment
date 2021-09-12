@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace back_end.Graphql.AppUsers
 {
-    public record EditAppUserInput(
+    public record EditSelfInput(
         string? Name,
         string? ImgUrl,
         string? state

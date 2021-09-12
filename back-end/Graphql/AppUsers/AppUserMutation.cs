@@ -21,7 +21,7 @@ namespace back_end.Graphql.AppUsers
     public class AppUserMutation
     {
         [UseAppDbContext]
-        public async Task<AppUser> EditAppUserAsync(EditAppUserInput input, ClaimsPrincipal claimsPrincipal, [ScopedService] AppDbContext context, CancellationToken cancellationToken)
+        public async Task<AppUser> EditSelfAsync(EditSelfInput input, ClaimsPrincipal claimsPrincipal, [ScopedService] AppDbContext context, CancellationToken cancellationToken)
         {
             var AppUserIdStr = claimsPrincipal.Claims.First(c => c.Type == "studentId").Value;
             var AppUser = await context.AppUsers.FindAsync(int.Parse(AppUserIdStr), cancellationToken);
@@ -35,7 +35,8 @@ namespace back_end.Graphql.AppUsers
             finally
             {
                 AppUser.state = state; 
-            }     
+            }
+            context.AppUsers.Add(AppUser);
             await context.SaveChangesAsync(cancellationToken);
             return AppUser;
         }

@@ -19,9 +19,9 @@ namespace back_end.Graphql.Entries
             return context.Entries;
         }
         [UseAppDbContext]
-        public Entry GetEntry(int Id, [ScopedService] AppDbContext context)
+        public Entry GetEntry([GraphQLType(typeof(NonNullType<IdType>))] string id, [ScopedService] AppDbContext context)
         {
-            return context.Entries.Find(Id);
+            return context.Entries.Find(int.Parse(id));
         }
     }
 }

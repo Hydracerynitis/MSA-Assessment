@@ -27,6 +27,7 @@ namespace back_end.Graphql.Destinations
             destination.Name = input.Name ?? destination.Name;
             destination.Address = input.Address ?? destination.Address;
             destination.Interest = input.interest ?? destination.Interest;
+            context.Destinations.Add(destination);
             await context.SaveChangesAsync(cancellationToken);
             return destination;
         }
