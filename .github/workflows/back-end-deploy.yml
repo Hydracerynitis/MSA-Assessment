@@ -35,8 +35,9 @@ jobs:
 
     - name: Run Azure webapp deploy action using publish profile credentials
       uses: azure/webapps-deploy@v2
+      id: deploy-to-webapp
       with:
-        app-name: msa-2021-backend
+        app-name: 'hydracerynitis'
         slot-name: Production
-        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7B6B8441830943B18033503D05C88E0D }}
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3B04742D4AD54F309DF3B9E6158FFECE }}
         package: .
