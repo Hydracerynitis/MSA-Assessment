@@ -43,7 +43,7 @@ jobs:
       run:
         working-directory: "./back-end" 
 
-      steps:
+    steps:
       # checkout the repo
       - name: 'Checkout Github Action'
         uses: actions/checkout@master
