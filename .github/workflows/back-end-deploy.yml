@@ -56,5 +56,5 @@ jobs:
         with:
           app-name: 'hydracerynitis-sql'
           slot-name: 'production'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_c39e4dfcff59462689d126022807f87c }}
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_758d5598732a4ae7a3170019bc0cb5ad }}
           package: .
