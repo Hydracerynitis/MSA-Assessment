@@ -10,13 +10,13 @@ namespace back_end.Graphql.Destinations
     public record AddDestinationInput(
         string Name,
         string Address,
-        bool? interest
+        string? interest
     );
     public record EditDestinationInput(
         [GraphQLType(typeof(NonNullType<IdType>))]
         string DestinationId,
         string? Name,
         string? Address,
-        bool? interest
+        string? interest
     );
 }
