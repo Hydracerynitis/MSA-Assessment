@@ -23,5 +23,9 @@ namespace back_end.Graphql.Entries
         {
             return context.Entries.Find(int.Parse(id));
         }
+        public ICollection<Entry> GetEntriesByUser([GraphQLType(typeof(NonNullType<IdType>))] string appuserid, [ScopedService] AppDbContext context)
+        {
+            return context.Entries.Where(e => e.AppUserId == int.Parse(appuserid)).ToArray<Entry>();
+        }
     }
 }
