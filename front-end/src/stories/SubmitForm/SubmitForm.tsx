@@ -4,6 +4,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Button } from "../Button";
 import { userstate,stateColor } from "../Header/UserState";
 import "./SubmitForm.css";
+import { useMutation } from "@apollo/client";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -70,6 +71,7 @@ function checkAddress(a:string){
 }
 
 export const SubmitForm = ({UserState}:SubmitFormProp) => {
+    //const {loading, data, error}=useMutation()
     const classes = useStyles();
     const [Location, setLocation] = useState<string>("");
     const [Address,setAddress] =useState("");

@@ -52,7 +52,7 @@ export const HomePage=(prop:HomePageProp)=>{
         <a href="/Submit">
             <Typography variant="h5" color="textSecondary" className={classes.optionLow}><span><ArrowUpwardIcon fontSize="large"/></span>Submitting your recent Entry of a location</Typography>
         </a>
-        <a href="/Diary">
+        <a href="/Entry">
             <Typography variant="h5" color="textSecondary" className={classes.optionHigh}><span><LibraryBooksOutlinedIcon fontSize="large"/></span>Submitting your recent Entry of a location</Typography>
         </a>
         <Typography variant="h4">Stay Safe and Be Kind.</Typography>

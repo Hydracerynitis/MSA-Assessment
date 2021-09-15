@@ -10,7 +10,6 @@ import { BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-do
 import './App.css';
 import { Entry } from './stories/EntryDiary/EntryDiary';
 
-
 function App() {
   const [state, setState] = useState<userstate>(userstate.LOGIN);
   const [Name,setName]=useState("");

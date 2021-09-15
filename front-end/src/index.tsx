@@ -1,13 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router} from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+
+const graphQLClient = new ApolloClient({
+  uri: "https://hydracerynitis-sql.azurewebsites.net/graphql/",
+  cache: new InMemoryCache()
+});
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Router>
+    <ApolloProvider client={graphQLClient}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </ApolloProvider>
+  </Router>,
   document.getElementById('root')
 );
 
