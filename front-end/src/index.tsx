@@ -4,12 +4,9 @@ import { BrowserRouter as Router} from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { ApolloProvider} from '@apollo/client';
+import graphQLClient from './GraphqlClient';
 
-const graphQLClient = new ApolloClient({
-  uri: "https://hydracerynitis-sql.azurewebsites.net/graphql/",
-  cache: new InMemoryCache()
-});
 
 ReactDOM.render(
   <Router>

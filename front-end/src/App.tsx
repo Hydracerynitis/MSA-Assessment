@@ -1,6 +1,6 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import {Header} from './stories/Header/Header';
-import {userstate} from './stories/Header/UserState';
+import {userstate,DecodeEnum} from './stories/Header/UserState';
 import {Button} from './stories/Button';
 import { Footer } from './stories/Footer/Footer';
 import { Diary } from './Pages/Diary';
@@ -9,55 +9,33 @@ import { Home } from './Pages/Home';
 import { BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 import './App.css';
 import { Entry } from './stories/EntryDiary/EntryDiary';
+import { useQuery } from '@apollo/client';
+import { SELF } from './api/Queries';
+import { Self } from './api/__generated__/Self';
 
 function App() {
-  const [state, setState] = useState<userstate>(userstate.LOGIN);
-  const [Name,setName]=useState("");
-  const [ImgUrl,setUrl]=useState("");
-  const [Entries,setEntries]=useState<Entry[]>([])
-  const [interests,setInterest]=useState<string[]>([])
-  const toggleState = () => {
-    switch(state){
-      case undefined:
-      case userstate.LOGIN:{
-        setState(userstate.NORMAL);
-      }
-      break;
-      case userstate.NORMAL:{
-        setState(userstate.ClOSECONTACT);
-      }
-      break;
-      case userstate.ClOSECONTACT:{
-        setState(userstate.INFECTED);
-      }
-      break;
-      case userstate.INFECTED:{
-        setState(userstate.LOGIN);
-      }
-      break;
-    }
-  };
+  const { loading, error, data } = useQuery<Self>(SELF);
+  const user = data==undefined? {name:"",imgUrl:"",state:userstate.LOGIN,Entries:[]} : data!.self
   return (
     <div className="App">
-      <Header UserState={state} Name={Name} ImgUrl={ImgUrl}/>
+      <Header UserState={DecodeEnum(user.state)} Name={user.name} ImgUrl={user.imgUrl}/>
       <Router>
         <Switch>
           <Route exact path="/">
             <Redirect to="/Home" />
           </Route>
           <Route path="/Home" >
-            <Home user={{Name:Name,ImgUrl:ImgUrl,state:state,Entries:Entries}} interest={interests} />
+            <Home user={{Name:user.name,ImgUrl:user.imgUrl,state:DecodeEnum(user.state),Entries:[]}} interest={[]} />
           </Route>
           <Route path="/Submit" >
-            <Submit user={{Name:Name,ImgUrl:ImgUrl,state:state,Entries:Entries}} interest={interests} />
+            <Submit user={{Name:user.name,ImgUrl:user.imgUrl,state:DecodeEnum(user.state),Entries:[]}} interest={[]} />
           </Route>
           <Route path="/Entry">
-            <Diary user={{Name:Name,ImgUrl:ImgUrl,state:state,Entries:Entries}} interest={interests} />
+            <Diary user={{Name:user.name,ImgUrl:user.imgUrl,state:DecodeEnum(user.state),Entries:[]}} interest={[]} />
           </Route>
         </Switch>
       </Router>
-      <Button onClick={toggleState} label="test" backgroundColor="white"/>
-      <Footer UserState={state}/>
+      <Footer UserState={DecodeEnum(user.state)}/>
     </div>
   );
 }

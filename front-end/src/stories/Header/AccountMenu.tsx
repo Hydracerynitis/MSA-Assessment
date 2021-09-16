@@ -1,6 +1,7 @@
 import React from "react";
 import { Avatar, createStyles, Divider, IconButton, ListItem, ListItemAvatar, ListItemText, makeStyles, Menu, MenuItem, Theme } from "@material-ui/core";
 import { deepPurple } from "@material-ui/core/colors";
+import { Redirect,useHistory } from "react-router-dom";
 
 const useStyles=makeStyles((theme: Theme) =>(
   createStyles({
@@ -25,6 +26,7 @@ interface MenuProp{
 }
 
 export const AccountMenu= ({Name,ImgUrl}:MenuProp)=> {
+    const history=useHistory();
     const classes=useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => { setAnchorEl(event.currentTarget);};
@@ -46,7 +48,7 @@ export const AccountMenu= ({Name,ImgUrl}:MenuProp)=> {
           </ListItem>
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>Log Out</MenuItem>
+          <MenuItem onClick={()=>{localStorage.removeItem("token");history.push('/Home');window.location.reload();}}>Log Out</MenuItem>
       </Menu>
     </div>)
 }

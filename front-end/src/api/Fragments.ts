@@ -26,6 +26,15 @@ export const ENTRY = gql`
         dayLeave
     }
 `;
+export const LOGINPAYLOAD=gql`
+    fragment payloadFields on LoginPayload{
+        appUser {
+            ...appuserFields
+        }
+        jwt
+    }
+    ${APPUSER}
+`
 
 export const PAGE_INFO = gql`
     fragment pageInfoFields on PageInfo {

@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SidebarLogIn,SidebarLogOut } from './SideBar';
 import { StatePopover } from './StatePopover';
 import { AccountMenu } from './AccountMenu';
 import { AppBar, Toolbar, Typography,Button, IconButton, createStyles, makeStyles, Theme, Drawer, Grid} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import {userstate, stateColor} from './UserState';
+import { useHistory, useLocation } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { LOGIN } from '../../api/Mutation';
+import {login} from '../../api/__generated__/login';
 
 export interface User{
   UserState?: userstate,
@@ -40,11 +44,35 @@ export function useStyles(state?: userstate){
   return Styles()
 }
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 export const Header=(prop:User={UserState:userstate.LOGIN,Name:"",ImgUrl:""})=> {
   const classes = useStyles(prop.UserState);
   const login= prop.UserState===userstate.LOGIN || prop.UserState===undefined
   const [sideBar, setSideBar] = useState(false);
   const toggleSideBar = () => { setSideBar(!sideBar); };
+  const history=useHistory();
+  const query = useQuery();
+  const [Login]=useMutation<login>(LOGIN);
+  useEffect(() => {const loginMethod = async () => {
+    const code = query.get("code");
+      if (code != null) {
+        try {
+          const { data } = await Login({ variables: { code } });
+          if (data != null && data!=undefined) {
+            localStorage.setItem("token", data.login.jwt)
+          }
+        } catch (e) {
+          console.log(e);
+        }
+        history.push('/Home');
+        window.location.reload()
+      }
+    };
+    loginMethod();
+  }, []);
   return (
     <div className={classes.root}>
       <AppBar className={classes.root} position="static">
@@ -60,7 +88,7 @@ export const Header=(prop:User={UserState:userstate.LOGIN,Name:"",ImgUrl:""})=> 
           </Typography>
           {login && (
             <div>
-              <Button color="inherit">Use GitHub to Login</Button>
+              <Button color="inherit" href="https://github.com/login/oauth/authorize?client_id=c45816972149add990c7">Use GitHub to Login</Button>
             </div>
           )}
           {!login && (

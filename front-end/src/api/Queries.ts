@@ -84,3 +84,10 @@ export const ENTRY = gql`
     }
     ${fragments.ENTRY}
 `
+export const ENTRY_USER = gql`
+    query entrybyUser($appuserid:ID!){
+        entrybyUser(appuserid: $appuserid){
+            ...entryFields
+        }
+    }
+`

@@ -4,13 +4,10 @@ import * as fragments from "./Fragments";
 export const LOGIN = gql`
   mutation login($code: String!) {
     login(input: { code: $code }) {
-      appUser {
-        ...appuserFields
-      }
-      jwt
+      ...payloadFields
     }
   }
-  ${fragments.APPUSER}
+  ${fragments.LOGINPAYLOAD}
 `;
 
 export const EDIT_SELF = gql`

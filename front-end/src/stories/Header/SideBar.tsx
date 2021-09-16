@@ -2,7 +2,7 @@ import React from "react";
 import {Divider,Link,  List,  ListItem,  ListItemIcon,  ListItemText,  makeStyles,} from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
-import AddBoxIcon from "@material-ui/icons/AddBox";
+import GitHubIcon from "@material-ui/icons/GitHub";
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import LibraryBooksOutlinedIcon from '@material-ui/icons/LibraryBooksOutlined';
@@ -44,9 +44,9 @@ export const SidebarLogIn = () => {
         </List>
         <Divider />
         <List>
-          <ListItem button href="" component={Link}>
+          <ListItem button href="https://github.com/login/oauth/authorize?client_id=c45816972149add990c7" component={Link}>
               <ListItemIcon>
-                  <AddBoxIcon />
+                <GitHubIcon />
               </ListItemIcon>
           <ListItemText className={classes.listText} primary="Log in" />
           </ListItem>
@@ -81,7 +81,7 @@ export const SidebarLogOut = () => {
       </List>
       <Divider />
       <List>
-        <ListItem button href="" component={Link}>
+        <ListItem button href="/Home" component={Link} onClick={()=>{localStorage.removeItem("token")}}>
             <ListItemIcon>
                 <ExitToAppOutlinedIcon />
             </ListItemIcon>

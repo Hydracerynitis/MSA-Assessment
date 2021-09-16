@@ -7,6 +7,44 @@ export enum userstate{
     INFECTED="Infected"
   }
 
+  export const DecodeEnum=(querystate?:any)=>{
+    switch(querystate){
+      case "NONE":{
+        return userstate.LOGIN
+      }
+      case "NORMAL":{
+        return userstate.NORMAL
+      }
+      case "CLOSE_CONTACT":{
+        return userstate.ClOSECONTACT
+      }
+      case "INFECTED":{
+        return userstate.INFECTED
+      }
+      default:{
+        return userstate.LOGIN
+      }
+    }
+  }
+
+  export const EncodeEnum=(frontendstate?:userstate)=>{
+    switch(frontendstate){
+      case undefined:
+      case userstate.LOGIN:{
+        return "NONE"
+      }
+      case userstate.NORMAL:{
+        return "NORMAL"
+      }
+      case userstate.ClOSECONTACT:{
+        return "CLOSE_CONTACT"
+      }
+      case userstate.INFECTED:{
+        return "INFECTED"
+      }
+    }
+  }
+
 export const stateColor=(s?:userstate)=>{
     switch(s){
         case undefined:

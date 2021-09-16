@@ -46,7 +46,7 @@ export const HomePage=(prop:HomePageProp)=>{
     const login=prop.state===userstate.LOGIN
     if(!login){return(
     <Container className={classes.root}>
-        <Typography variant="h3" className={classes.title}>Welcomback! {prop.Name===undefined || prop.Name.trim()==="" ? "New Zealanders": prop.Name}.</Typography>
+        <Typography variant="h3" className={classes.title}>Welcome back! {prop.Name===undefined || prop.Name.trim()==="" ? "New Zealanders": prop.Name}.</Typography>
         <Typography variant="h4">Your current state is <span style={Color(prop.state)}>{prop.state}</span>.</Typography>
         <Typography variant="h4">You can spend some of your time:</Typography>
         <a href="/Submit">
@@ -64,8 +64,8 @@ export const HomePage=(prop:HomePageProp)=>{
         <Typography variant="h5"className={classes.body}>Location of interest will be marked automatically as a case is reported.</Typography>
         <Typography variant="h5"className={classes.body}>Users have been to a Location of interested will be marked as close contact</Typography>
         <Typography variant="h5" className={classes.button}>Now, you can use Github authentation to join as a new user.</Typography>
-        <a href="">
-            <Button primary backgroundColor="#039be5" label="Login" size="large"/>
+        <a href="https://github.com/login/oauth/authorize?client_id=c45816972149add990c7">
+            <Button primary backgroundColor="#039be5" label="Use GitHub to Login" size="large"/>
         </a>
     </Container>)
     }
