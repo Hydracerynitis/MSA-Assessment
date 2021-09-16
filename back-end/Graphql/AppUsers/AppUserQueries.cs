@@ -31,7 +31,7 @@ namespace back_end.Graphql.AppUsers
             if (claimsPrincipal == null)
                 return new AppUser { Id = 0, Name = "", ImgUrl = "", state = AppUserstate.None, Github = "" };
             var appUserIdStr = claimsPrincipal.Claims.First(c => c.Type == "AppUserId").Value;
-            return context.AppUsers.Find(int.Parse(appUserIdStr));
+            return context.AppUsers.Find(int.Parse(appUserIdStr)) ?? new AppUser {Id=0,Name="",ImgUrl="",state=AppUserstate.None, Github="" };
         }
     }
 }
