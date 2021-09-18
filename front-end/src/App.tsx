@@ -1,7 +1,6 @@
-import React,{useEffect, useState} from 'react';
+import React from 'react';
 import {Header} from './stories/Header/Header';
 import {userstate,DecodeEnum} from './stories/Header/UserState';
-import {Button} from './stories/Button';
 import { Footer } from './stories/Footer/Footer';
 import { Diary } from './Pages/Diary';
 import { Submit } from './Pages/Submit';
@@ -12,10 +11,12 @@ import { Entry } from './stories/EntryDiary/EntryDiary';
 import { useQuery } from '@apollo/client';
 import { SELF } from './api/Queries';
 import { Self } from './api/__generated__/Self';
+import { EditPage } from './stories/EditPage/EditPage';
+import { NoMatchPage } from './stories/NotMatchPage/NoMatchPage';
 
 function App() {
   const { loading, error, data } = useQuery<Self>(SELF);
-  const user = data==undefined? {name:"",imgUrl:"",state:userstate.LOGIN,Entries:[]} : data!.self
+  const user = data===undefined? {name:"",imgUrl:"",state:userstate.LOGIN,Entries:[]} : data!.self
   return (
     <div className="App">
       <Header UserState={DecodeEnum(user.state)} Name={user.name} ImgUrl={user.imgUrl}/>
@@ -32,6 +33,12 @@ function App() {
           </Route>
           <Route path="/Entry">
             <Diary user={{Name:user.name,ImgUrl:user.imgUrl,state:DecodeEnum(user.state),Entries:[]}} interest={[]} />
+          </Route>
+          <Route path="/Edit">
+            <EditPage Name={user.name} ImgUrl={user.imgUrl} state={DecodeEnum(user.state)}/>
+          </Route>
+          <Route path="*">
+            <NoMatchPage />
           </Route>
         </Switch>
       </Router>

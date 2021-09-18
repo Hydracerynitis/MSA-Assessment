@@ -44,22 +44,30 @@ namespace back_end.Graphql.AppUsers
         [UseAppDbContext]
         public async Task<AppUser> EditSelfAsync(EditSelfInput input, ClaimsPrincipal claimsPrincipal, [ScopedService] AppDbContext context, CancellationToken cancellationToken)
         {
-            var AppUserIdStr = claimsPrincipal.Claims.First(c => c.Type == "AppUserId").Value;
-            var AppUser = await context.AppUsers.FindAsync(int.Parse(AppUserIdStr), cancellationToken);
-            AppUser.Name = input.Name ?? AppUser.Name;
-            AppUser.ImgUrl = input.ImgUrl ?? AppUser.ImgUrl;
-            AppUserstate state = AppUser.state;
             try
             {
-                state = (AppUserstate)Enum.Parse(typeof(AppUserstate), input.state);
+                var AppUserIdStr = claimsPrincipal.Claims.First(c => c.Type == "AppUserId").Value;
+                var AppUser = await context.AppUsers.FindAsync(new object[] { int.Parse(AppUserIdStr) }, cancellationToken);
+                AppUser.Name = input.Name ?? AppUser.Name;
+                AppUser.ImgUrl = input.ImgUrl ?? AppUser.ImgUrl;
+                AppUserstate state = AppUser.state;
+                try
+                {
+                    state = (AppUserstate)Enum.Parse(typeof(AppUserstate), input.state);
+                }
+                finally
+                {
+                    AppUser.state = state;
+                }
+                //context.AppUsers.Add(AppUser);
+                await context.SaveChangesAsync(cancellationToken);
+                return AppUser;
             }
-            finally
+            catch (Exception ex)
             {
-                AppUser.state = state; 
+                File.WriteAllText("C:/Users/Home/Desktop/Error.txt", ex.GetType().ToString() + "\n" + ex.Message + "\n" + ex.StackTrace);
             }
-            //context.AppUsers.Add(AppUser);
-            await context.SaveChangesAsync(cancellationToken);
-            return AppUser;
+            return new AppUser();
         }
         [UseAppDbContext]
         public async Task<LoginPayload> LoginAsync(LoginInput input, [ScopedService] AppDbContext context, CancellationToken cancellationToken)

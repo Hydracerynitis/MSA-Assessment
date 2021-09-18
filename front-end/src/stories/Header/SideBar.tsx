@@ -6,6 +6,7 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import LibraryBooksOutlinedIcon from '@material-ui/icons/LibraryBooksOutlined';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const useStyles = makeStyles({
   list: {
@@ -35,6 +36,12 @@ export const SidebarLogIn = () => {
             </ListItemIcon> 
             <ListItemText className={classes.listText} primary="Require Log In"/>
           </ListItem>
+          <ListItem component={Link}>
+            <ListItemIcon>
+              <LockOutlinedIcon />
+            </ListItemIcon> 
+            <ListItemText className={classes.listText} primary="Require Log In"/>
+          </ListItem> 
           <ListItem component={Link}>
             <ListItemIcon>
               <LockOutlinedIcon />
@@ -77,6 +84,12 @@ export const SidebarLogOut = () => {
             <LibraryBooksOutlinedIcon />
           </ListItemIcon> 
           <ListItemText className={classes.listText} primary="View Entry"/>
+        </ListItem>
+        <ListItem button  href="/Edit" component={Link}>
+          <ListItemIcon>
+            <SettingsIcon />
+          </ListItemIcon> 
+          <ListItemText className={classes.listText} primary="Change Setting"/>
         </ListItem>
       </List>
       <Divider />

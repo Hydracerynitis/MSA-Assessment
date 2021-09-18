@@ -1,8 +1,11 @@
-import { ApolloClient, InMemoryCache, createHttpLink, gql } from '@apollo/client';
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
+const Deployed_end_point='https://hydracerynitis-sql.azurewebsites.net/graphql/'
+const Debug_end_point='https://localhost:44394/graphql'
+
 const httpLink = createHttpLink({
-    uri: 'https://hydracerynitis-sql.azurewebsites.net/graphql/',
+    uri: Deployed_end_point,
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -23,7 +26,3 @@ const graphQLClient = new ApolloClient({
 });
 
 export default graphQLClient;
-
-// export const cacheUser = gql`
-//   query 
-// `

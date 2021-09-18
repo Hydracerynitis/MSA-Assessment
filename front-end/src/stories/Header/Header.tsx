@@ -60,7 +60,7 @@ export const Header=(prop:User={UserState:userstate.LOGIN,Name:"",ImgUrl:""})=> 
     const code = query.get("code");
       if (code != null) {
         try {
-          const { data } = await Login({ variables: { code } });
+          const { data } = await Login({ variables: { code:code } });
           if (data != null && data!=undefined) {
             localStorage.setItem("token", data.login.jwt)
           }
@@ -97,7 +97,6 @@ export const Header=(prop:User={UserState:userstate.LOGIN,Name:"",ImgUrl:""})=> 
                 <StatePopover UserState={prop.UserState}/>
                 <AccountMenu Name={prop.Name} ImgUrl={prop.ImgUrl} />
               </Grid>
-
             </div>
           )}
         </Toolbar>

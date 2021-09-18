@@ -28,10 +28,8 @@ namespace back_end.Graphql.AppUsers
         [Authorize]
         public AppUser GetSelf(ClaimsPrincipal claimsPrincipal, [ScopedService] AppDbContext context)
         {
-            if (claimsPrincipal == null)
-                return new AppUser { Id = 0, Name = "", ImgUrl = "", state = AppUserstate.NONE, Github = "" };
             var appUserIdStr = claimsPrincipal.Claims.First(c => c.Type == "AppUserId").Value;
-            return context.AppUsers.Find(int.Parse(appUserIdStr)) ?? new AppUser {Id=0,Name="",ImgUrl="",state=AppUserstate.NONE, Github="" };
+            return context.AppUsers.Find(int.Parse(appUserIdStr));
         }
     }
 }

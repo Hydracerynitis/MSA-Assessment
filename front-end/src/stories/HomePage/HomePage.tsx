@@ -5,6 +5,7 @@ import { Color } from '../Header/StatePopover'
 import { Button } from '../Button'
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import LibraryBooksOutlinedIcon from '@material-ui/icons/LibraryBooksOutlined';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 interface HomePageProp{
     Name:string
@@ -54,6 +55,9 @@ export const HomePage=(prop:HomePageProp)=>{
         </a>
         <a href="/Entry">
             <Typography variant="h5" color="textSecondary" className={classes.optionHigh}><span><LibraryBooksOutlinedIcon fontSize="large"/></span>Submitting your recent Entry of a location</Typography>
+        </a>
+        <a href="/Edit">
+            <Typography variant="h5" color="textSecondary" className={classes.optionHigh}><span><SettingsIcon fontSize="large"/></span>Updating the setting of your profile</Typography>
         </a>
         <Typography variant="h4">Stay Safe and Be Kind.</Typography>
     </Container>)}

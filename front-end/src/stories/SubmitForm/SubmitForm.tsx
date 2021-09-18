@@ -13,10 +13,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
 }));
-export interface SubmitFormOut {
-    
-}
-
 interface SubmitFormProp{
     UserState?:userstate
 }
@@ -85,7 +81,7 @@ export const SubmitForm = ({UserState}:SubmitFormProp) => {
     const [Leave,setLeave] = useState('')
     const [submit, setSubmit] = useState(false);
     const [hasFocus, setHasFocus] = useState(false);
-    const ValidInput=  Location !== "" && checkAddress(Address) && Suburb!="" && City!="" && PostCode!=-1 && Arrive!="" && Leave!="" && Arrive<Leave
+    const ValidInput=  Location !== "" && checkAddress(Address) && Suburb!=="" && City!=="" && PostCode!==-1 && Arrive!=="" && Leave!=="" && Arrive<Leave
     const handleSubmit = async() => {
         setSubmit(false);
         if (ValidInput) {

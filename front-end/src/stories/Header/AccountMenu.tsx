@@ -1,7 +1,7 @@
 import React from "react";
 import { Avatar, createStyles, Divider, IconButton, ListItem, ListItemAvatar, ListItemText, makeStyles, Menu, MenuItem, Theme } from "@material-ui/core";
 import { deepPurple } from "@material-ui/core/colors";
-import { Redirect,useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const useStyles=makeStyles((theme: Theme) =>(
   createStyles({
@@ -48,6 +48,7 @@ export const AccountMenu= ({Name,ImgUrl}:MenuProp)=> {
           </ListItem>
         </MenuItem>
         <Divider />
+          <MenuItem onClick={()=>{history.push('/Edit');window.location.reload();}}>Change Setting</MenuItem>
           <MenuItem onClick={()=>{localStorage.removeItem("token");history.push('/Home');window.location.reload();}}>Log Out</MenuItem>
       </Menu>
     </div>)
