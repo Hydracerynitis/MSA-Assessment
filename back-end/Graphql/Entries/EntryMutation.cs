@@ -45,5 +45,6 @@ namespace back_end.Graphql.Entries
             await context.SaveChangesAsync(cancellationToken);
             return entry;
         }
+        //public async Task<Entry> SubmitEntry(SubmitEntryInput)
     }
 }

@@ -20,9 +20,9 @@ namespace back_end.Model
     }
     public enum AppUserstate
     {
-        None,
-        Normal,
-        CloseContact,
-        Infected
+        NONE,
+        NORMAL,
+        CLOSECONTACT,
+        INFECTED
     }
 }
