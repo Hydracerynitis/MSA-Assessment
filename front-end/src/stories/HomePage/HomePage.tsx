@@ -27,6 +27,10 @@ const createStyle = makeStyles((theme: Theme) =>(
             paddingTop:"30px",
             paddingBottom:"15px"
         },
+        optionMiddle:{
+            paddingTop:"15px",
+            paddingBottom:"15px"
+        },
         optionHigh:{
             paddingTop:"15px",
             paddingBottom:"30px"
@@ -54,7 +58,7 @@ export const HomePage=(prop:HomePageProp)=>{
             <Typography variant="h5" color="textSecondary" className={classes.optionLow}><span><ArrowUpwardIcon fontSize="large"/></span>Submitting your recent Entry of a location</Typography>
         </a>
         <a href="/Entry">
-            <Typography variant="h5" color="textSecondary" className={classes.optionHigh}><span><LibraryBooksOutlinedIcon fontSize="large"/></span>Submitting your recent Entry of a location</Typography>
+            <Typography variant="h5" color="textSecondary" className={classes.optionMiddle}><span><LibraryBooksOutlinedIcon fontSize="large"/></span>Check the collection of your submitted Entry of a location</Typography>
         </a>
         <a href="/Edit">
             <Typography variant="h5" color="textSecondary" className={classes.optionHigh}><span><SettingsIcon fontSize="large"/></span>Updating the setting of your profile</Typography>

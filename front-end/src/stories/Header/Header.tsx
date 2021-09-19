@@ -58,10 +58,10 @@ export const Header=(prop:User={UserState:userstate.LOGIN,Name:"",ImgUrl:""})=> 
   const [Login]=useMutation<login>(LOGIN);
   useEffect(() => {const loginMethod = async () => {
     const code = query.get("code");
-      if (code != null) {
+      if (code !== null) {
         try {
           const { data } = await Login({ variables: { code:code } });
-          if (data != null && data!=undefined) {
+          if (data !== null && data!==undefined) {
             localStorage.setItem("token", data.login.jwt)
           }
         } catch (e) {

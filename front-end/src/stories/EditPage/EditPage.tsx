@@ -9,7 +9,6 @@ import { useMutation, useQuery } from '@apollo/client'
 import { useHistory } from 'react-router'
 import { SELF } from '../../api/Queries'
 import { Self } from '../../api/__generated__/Self'
-import { editSelfDebug } from '../../api/__generated__/editSelfDebug'
 
 interface EditPageProp{
     Name:string
@@ -91,7 +90,9 @@ export const EditPage=(prop:EditPageProp)=>{
         }
     }, [data]);
     const handleSubmit = async () => {
-        setsubmit(false);
+        if (submit){
+            return
+        }
         if (name!=="" && CheckUrl(imgUrl)) {
             var backendState=EncodeEnum(state)
             console.log(name,imgUrl,backendState)
@@ -101,8 +102,9 @@ export const EditPage=(prop:EditPageProp)=>{
                 console.log(data)
                 setsubmit(true)
                 setHasFocus(false);
-                history.push("/Home")
-                window.location.reload()
+                setTimeout(()=>{
+                    history.push("/Home")
+                },3000)
             }
             catch(error){
                 console.log(error)
@@ -119,6 +121,7 @@ export const EditPage=(prop:EditPageProp)=>{
         {submit ? (
         <Grid className={classes.subtitle}>
           <Typography variant="h6" color="textSecondary">Congratulations! Your profile has been changed successfully.</Typography>
+          <Typography variant="h6" color="textSecondary">3 seconds later, you will be redirected back to Home Page.</Typography>
         </Grid>
         ) : null}
         <Grid container spacing={4}>

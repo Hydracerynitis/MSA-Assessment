@@ -7,6 +7,7 @@ using HotChocolate.Types;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -46,10 +47,11 @@ namespace back_end.Graphql.Entries
             await context.SaveChangesAsync(cancellationToken);
             return entry;
         }
+        [UseAppDbContext]
         public async Task<Entry> SubmitEntry(SubmitEntryInput input, ClaimsPrincipal claimsPrincipal, [ScopedService] AppDbContext context, CancellationToken cancellationToken)
         {
             var appUserIdStr = claimsPrincipal.Claims.First(c => c.Type == "AppUserId").Value;
-            var destination = await context.Destinations.FirstOrDefaultAsync(e => e.Address == input.Address, cancellationToken );
+            var destination = await context.Destinations.FirstOrDefaultAsync(e => e.Address == input.Address, cancellationToken);
             if (destination == null)
             {
                 destination = new Destination() { Name = input.Name, Address = input.Address };
@@ -67,7 +69,37 @@ namespace back_end.Graphql.Entries
             if (destination.Name != input.Name)
                 destination.Name = input.Name;
             await context.SaveChangesAsync(cancellationToken);
-            var entry = new Entry() { DayArrive = input.Arrive, DayLeave = input.Leave, AppUserId = int.Parse(appUserIdStr), DestinationId = destination.Id };
+            var entry = context.Entries.FirstOrDefault(e => e.DayArrive == input.Arrive && e.DayLeave == input.Leave
+                  && e.AppUserId == int.Parse(appUserIdStr) && e.DestinationId == destination.Id);
+            if (entry != null)
+                return entry;
+            entry = new Entry() { DayArrive = input.Arrive, DayLeave = input.Leave, AppUserId = int.Parse(appUserIdStr), DestinationId = destination.Id };
+            context.Entries.Add(entry);
+            await context.SaveChangesAsync(cancellationToken);
+            return entry;
+        }
+        [UseAppDbContext]
+        public async Task<Entry> SubmitEntryDebug(SubmitEntryDebugInput input, [ScopedService] AppDbContext context, CancellationToken cancellationToken)
+        {
+            var destination = await context.Destinations.FirstOrDefaultAsync(e => e.Address == input.Address, cancellationToken);
+            if (destination == null)
+            {
+                destination = new Destination() { Name = input.Name, Address = input.Address };
+                bool interest = false;
+                try
+                {
+                    interest = Boolean.Parse(input.Interest);
+                }
+                finally
+                {
+                    destination.Interest = interest;
+                }
+                context.Destinations.Add(destination);
+            }
+            if (destination.Name != input.Name)
+                destination.Name = input.Name;
+            await context.SaveChangesAsync(cancellationToken);
+            var entry = new Entry() { DayArrive = input.Arrive, DayLeave = input.Leave, AppUserId = int.Parse(input.appUserId), DestinationId = destination.Id };
             context.Entries.Add(entry);
             await context.SaveChangesAsync(cancellationToken);
             return entry;

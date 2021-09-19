@@ -5,6 +5,9 @@ import { Button } from "../Button";
 import { userstate,stateColor } from "../Header/UserState";
 import "./SubmitForm.css";
 import { useMutation } from "@apollo/client";
+import { SUBMIT_FORM } from "../../api/Mutation";
+import { submitEntry } from "../../api/__generated__/submitEntry";
+import { useHistory } from 'react-router'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -67,9 +70,9 @@ function checkAddress(a:string){
 }
 
 export const SubmitForm = ({UserState}:SubmitFormProp) => {
-    //const {loading, data, error}=useMutation()
     const classes = useStyles();
-    const [Location, setLocation] = useState<string>("");
+    const history=useHistory()
+    const [Location, setLocation] = useState("");
     const [Address,setAddress] =useState("");
     const [Suburb,setSuburb] =useState("");
     const [City,setCity]=useState(" ");
@@ -82,18 +85,31 @@ export const SubmitForm = ({UserState}:SubmitFormProp) => {
     const [submit, setSubmit] = useState(false);
     const [hasFocus, setHasFocus] = useState(false);
     const ValidInput=  Location !== "" && checkAddress(Address) && Suburb!=="" && City!=="" && PostCode!==-1 && Arrive!=="" && Leave!=="" && Arrive<Leave
+    const Interest= UserState===userstate.INFECTED
+    const [Submit]=useMutation<submitEntry>(SUBMIT_FORM)
     const handleSubmit = async() => {
-        setSubmit(false);
+        if(submit){
+            return
+        }
         if (ValidInput) {
             console.log(Location)
-            console.log([Address,Suburb,City].join(", ")+" "+PostCode.toString())
+            var address=[Address,Suburb,City].join(", ")+" "+PostCode.toString()
+            console.log(address)
             console.log(Arrive)
             console.log(Leave)
-            setSubmit(true);
-            setHasFocus(false);
+            try{
+                const {data}=await Submit({variables:{name:Location,address:address,arrive:Arrive,leave:Leave,interest:Interest.toString()}})
+                console.log(data)
+                setSubmit(true);
+                setHasFocus(false);
+                setTimeout(()=>{
+                    history.push("/Home")
+                },3000)
+            }
+            catch(e){
+                console.log(e)
+            }
         }else{
-            console.log(Arrive)
-            console.log(Leave)
             setHasFocus(true);
         }
     };
@@ -103,8 +119,9 @@ export const SubmitForm = ({UserState}:SubmitFormProp) => {
             <Typography variant="h4">Submit your entry of location here!</Typography>
         </Grid>
       {submit ? (
-        <Grid className="title">
+        <Grid className="subtitle">
           <Typography variant="h6" color="textSecondary">Congratulations! Your entry has been submitted successfully.</Typography>
+          <Typography variant="h6" color="textSecondary">3 seconds later, you will be redirected back to Home Page.</Typography>
         </Grid>
       ) : null}
       <Grid container spacing={4}>

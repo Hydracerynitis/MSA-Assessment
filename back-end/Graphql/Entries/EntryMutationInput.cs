@@ -26,4 +26,13 @@ namespace back_end.Graphql.Entries
         string Leave,
         string Interest
     );
+    public record SubmitEntryDebugInput(
+        [GraphQLType(typeof(NonNullType<IdType>))]
+        string appUserId,
+        string Name,
+        string Address,
+        string Arrive,
+        string Leave,
+        string Interest
+    );
 }

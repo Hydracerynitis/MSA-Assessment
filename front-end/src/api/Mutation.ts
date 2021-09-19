@@ -73,3 +73,11 @@ export const EDIT_DESTINATION = gql`
   }
   ${fragments.DESTINATION}
 `
+export const SUBMIT_FORM=gql`
+  mutation submitEntry($name:String!, $address:String!, $arrive:String!, $leave:String!, $interest:String!){
+    submitEntry(input:{name:$name,address:$address,arrive:$arrive,leave:$leave,interest:$interest}){
+      ...entryFields
+    }
+  }
+  ${fragments.ENTRY}
+`
