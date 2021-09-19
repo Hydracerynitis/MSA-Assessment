@@ -14,19 +14,19 @@ namespace back_end.Graphql.Destinations
     public class DestinationMutation
     {
         [UseAppDbContext]
-        public async Task<Destination> AddDestination(AddDestinationInput input, [ScopedService] AppDbContext context, CancellationToken cancellationToken)
+        public async Task<Destination> AddDestinationDebug(AddDestinationInputDebug input, [ScopedService] AppDbContext context, CancellationToken cancellationToken)
         {
             var destination = new Destination() { Name = input.Name, Address = input.Address };
             context.Destinations.Add(destination);
             await context.SaveChangesAsync(cancellationToken);
             return destination;
         }
-        public async Task<Destination> EditDestination(EditDestinationInput input, [ScopedService] AppDbContext context, CancellationToken cancellationToken)
+        [UseAppDbContext]
+        public async Task<Destination> EditDestinationDebug(EditDestinationInputDebug input, [ScopedService] AppDbContext context, CancellationToken cancellationToken)
         {
             var destination = await context.Destinations.FindAsync(new object[] { int.Parse(input.DestinationId) }, cancellationToken);
             destination.Name = input.Name ?? destination.Name;
             destination.Address = input.Address ?? destination.Address;
-            context.Destinations.Add(destination);
             await context.SaveChangesAsync(cancellationToken);
             return destination;
         }

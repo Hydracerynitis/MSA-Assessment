@@ -1,6 +1,7 @@
 ﻿using back_end.Data;
 using back_end.Model;
 using HotChocolate;
+using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Types;
 using System;
 using System.Collections.Generic;
@@ -31,9 +32,15 @@ namespace back_end.Graphql.Entries
             return context.Entries.Where(e => e.AppUserId == int.Parse(appuserid)).ToArray<Entry>();
         }
         [UseAppDbContext]
+        [Authorize]
         public ICollection<Entry> GetEntriesByUser(ClaimsPrincipal claimsPrincipal, [ScopedService] AppDbContext context)
         {
-            var appUserIdStr = claimsPrincipal.Claims.First(c => c.Type == "AppUserId").Value;
+            Claim? claim = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "AppUserId");
+            if (claim==null)
+            {
+                return new List<Entry>();
+            }
+            var appUserIdStr = claim.Value;
             return context.Entries.Where(e => e.AppUserId == int.Parse(appUserIdStr)).ToArray<Entry>();
         }
     }

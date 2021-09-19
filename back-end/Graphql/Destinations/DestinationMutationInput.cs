@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace back_end.Graphql.Destinations
 {
-    public record AddDestinationInput(
+    public record AddDestinationInputDebug(
         string Name,
         string Address
     );
-    public record EditDestinationInput(
+    public record EditDestinationInputDebug(
         [GraphQLType(typeof(NonNullType<IdType>))]
         string DestinationId,
         string? Name,

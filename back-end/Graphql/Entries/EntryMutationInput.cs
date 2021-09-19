@@ -7,18 +7,28 @@ using System.Threading.Tasks;
 
 namespace back_end.Graphql.Entries
 {
-    public record AddEntryInput(
+    public record AddEntryInputDebug(
         string DayArrive,
         string DayLeave,
         string DestinationId,
+        string AppUserId,
         string interest
     );
-    public record EditEntryInput(
+    public record EditEntryInputDebug(
         [GraphQLType(typeof(NonNullType<IdType>))]
         string EntryId,
         string? DayArrive,
         string? DayLeave,
+        string? AppUserId,
         string? DestinationId
+    );
+    public record EditEntryInput(
+        [GraphQLType(typeof(NonNullType<IdType>))]
+        string EntryId,
+        string Name,
+        string Address,
+        string Arrive,
+        string Leave
     );
     public record SubmitEntryInput(
         string Name,
@@ -27,7 +37,7 @@ namespace back_end.Graphql.Entries
         string Leave,
         string Interest
     );
-    public record SubmitEntryDebugInput(
+    public record SubmitEntryInputDebug(
         [GraphQLType(typeof(NonNullType<IdType>))]
         string appUserId,
         string Name,

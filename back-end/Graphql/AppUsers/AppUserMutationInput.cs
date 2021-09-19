@@ -8,7 +8,11 @@ using System.Threading.Tasks;
 
 namespace back_end.Graphql.AppUsers
 {
-    public record EditSelfInputDebug(
+    public record AddAppUserInputDebug(
+        string Name,
+        string? ImgUrl
+    );
+    public record EditAppUserInputDebug(
         [GraphQLType(typeof(NonNullType<IdType>))]
         string id,
         string? Name,

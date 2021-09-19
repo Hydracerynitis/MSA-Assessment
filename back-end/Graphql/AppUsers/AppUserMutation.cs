@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Reflection;
+using HotChocolate.AspNetCore.Authorization;
 
 namespace back_end.Graphql.AppUsers
 {
@@ -23,7 +24,15 @@ namespace back_end.Graphql.AppUsers
     public class AppUserMutation
     {
         [UseAppDbContext]
-        public async Task<AppUser> EditSelfDebugAsync(EditSelfInputDebug input, [ScopedService] AppDbContext context, CancellationToken cancellationToken)
+        public async Task<AppUser> AddAppUserDebug(AddAppUserInputDebug input,[ScopedService] AppDbContext context, CancellationToken cancellationToken)
+        {
+            var appUser = new AppUser() { Name = input.Name, ImgUrl = input.ImgUrl ?? "", state=AppUserstate.NORMAL,Github="" };
+            context.AppUsers.Add(appUser);
+            await context.SaveChangesAsync(cancellationToken);
+            return appUser;
+        }
+        [UseAppDbContext]
+        public async Task<AppUser> EditAppUserAsyncDebug(EditAppUserInputDebug input, [ScopedService] AppDbContext context, CancellationToken cancellationToken)
         {
             var AppUser = await context.AppUsers.FindAsync(new object[] { int.Parse(input.id) }, cancellationToken);
             AppUser.Name = input.Name ?? AppUser.Name;
@@ -42,32 +51,25 @@ namespace back_end.Graphql.AppUsers
             return AppUser;
         }
         [UseAppDbContext]
+        [Authorize]
         public async Task<AppUser> EditSelfAsync(EditSelfInput input, ClaimsPrincipal claimsPrincipal, [ScopedService] AppDbContext context, CancellationToken cancellationToken)
         {
+            var AppUserIdStr = claimsPrincipal.Claims.First(c => c.Type == "AppUserId").Value;
+            var AppUser = await context.AppUsers.FindAsync(new object[] { int.Parse(AppUserIdStr) }, cancellationToken);
+            AppUser.Name = input.Name ?? AppUser.Name;
+            AppUser.ImgUrl = input.ImgUrl ?? AppUser.ImgUrl;
+            AppUserstate state = AppUser.state;
             try
             {
-                var AppUserIdStr = claimsPrincipal.Claims.First(c => c.Type == "AppUserId").Value;
-                var AppUser = await context.AppUsers.FindAsync(new object[] { int.Parse(AppUserIdStr) }, cancellationToken);
-                AppUser.Name = input.Name ?? AppUser.Name;
-                AppUser.ImgUrl = input.ImgUrl ?? AppUser.ImgUrl;
-                AppUserstate state = AppUser.state;
-                try
-                {
-                    state = (AppUserstate)Enum.Parse(typeof(AppUserstate), input.state);
-                }
-                finally
-                {
-                    AppUser.state = state;
-                }
-                //context.AppUsers.Add(AppUser);
-                await context.SaveChangesAsync(cancellationToken);
-                return AppUser;
+                state = (AppUserstate)Enum.Parse(typeof(AppUserstate), input.state);
             }
-            catch (Exception ex)
+            finally
             {
-                File.WriteAllText("C:/Users/Home/Desktop/Error.txt", ex.GetType().ToString() + "\n" + ex.Message + "\n" + ex.StackTrace);
+                AppUser.state = state;
             }
-            return new AppUser();
+            //context.AppUsers.Add(AppUser);
+            await context.SaveChangesAsync(cancellationToken);
+            return AppUser;
         }
         [UseAppDbContext]
         public async Task<LoginPayload> LoginAsync(LoginInput input, [ScopedService] AppDbContext context, CancellationToken cancellationToken)
