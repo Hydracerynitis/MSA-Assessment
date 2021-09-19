@@ -19,6 +19,7 @@ namespace back_end.Graphql.Entries
             descriptor.Field(e => e.Id).Type<NonNullType<IdType>>();
             descriptor.Field(e => e.DayArrive).Type<NonNullType<StringType>>();
             descriptor.Field(e => e.DayLeave).Type<NonNullType<StringType>>();
+            descriptor.Field(e => e.Interest).Type<NonNullType<BooleanType>>();
             descriptor.Field(e => e.Destination).ResolveWith<Resolver>(r => r.GetDestination(default!, default!, default!)).UseDbContext<AppDbContext>().Type<NonNullType<DestinationType>>();
             descriptor.Field(e => e.AppUser).ResolveWith<Resolver>(r => r.GetAppUser(default!, default!, default!)).UseDbContext<AppDbContext>().Type<NonNullType<AppUserType>>();
         }

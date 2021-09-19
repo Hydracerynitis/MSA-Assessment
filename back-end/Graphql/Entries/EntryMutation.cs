@@ -55,15 +55,6 @@ namespace back_end.Graphql.Entries
             if (destination == null)
             {
                 destination = new Destination() { Name = input.Name, Address = input.Address };
-                bool interest = false;
-                try
-                {
-                    interest = Boolean.Parse(input.Interest);
-                }
-                finally
-                {
-                    destination.Interest = interest;
-                }
                 context.Destinations.Add(destination);
             }
             if (destination.Name != input.Name)
@@ -74,6 +65,15 @@ namespace back_end.Graphql.Entries
             if (entry != null)
                 return entry;
             entry = new Entry() { DayArrive = input.Arrive, DayLeave = input.Leave, AppUserId = int.Parse(appUserIdStr), DestinationId = destination.Id };
+            bool interest = false;
+            try
+            {
+                interest = Boolean.Parse(input.Interest);
+            }
+            finally
+            {
+                entry.Interest = interest;
+            }
             context.Entries.Add(entry);
             await context.SaveChangesAsync(cancellationToken);
             return entry;
@@ -85,21 +85,21 @@ namespace back_end.Graphql.Entries
             if (destination == null)
             {
                 destination = new Destination() { Name = input.Name, Address = input.Address };
-                bool interest = false;
-                try
-                {
-                    interest = Boolean.Parse(input.Interest);
-                }
-                finally
-                {
-                    destination.Interest = interest;
-                }
                 context.Destinations.Add(destination);
             }
             if (destination.Name != input.Name)
                 destination.Name = input.Name;
             await context.SaveChangesAsync(cancellationToken);
             var entry = new Entry() { DayArrive = input.Arrive, DayLeave = input.Leave, AppUserId = int.Parse(input.appUserId), DestinationId = destination.Id };
+            bool interest = false;
+            try
+            {
+                interest = Boolean.Parse(input.Interest);
+            }
+            finally
+            {
+                entry.Interest = interest;
+            }
             context.Entries.Add(entry);
             await context.SaveChangesAsync(cancellationToken);
             return entry;

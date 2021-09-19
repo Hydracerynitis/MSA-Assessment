@@ -14,7 +14,6 @@ namespace back_end.Model
         public string Name { get; set; } = default!;
         [Required]
         public string Address { get; set; } = default!;
-        public bool Interest { get; set; } = false;
         public ICollection<Entry> Entries { get; set; } = new List<Entry>();
     }
 }

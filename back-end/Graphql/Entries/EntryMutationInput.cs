@@ -10,7 +10,8 @@ namespace back_end.Graphql.Entries
     public record AddEntryInput(
         string DayArrive,
         string DayLeave,
-        string DestinationId
+        string DestinationId,
+        string interest
     );
     public record EditEntryInput(
         [GraphQLType(typeof(NonNullType<IdType>))]

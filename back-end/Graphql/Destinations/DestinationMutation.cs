@@ -17,15 +17,6 @@ namespace back_end.Graphql.Destinations
         public async Task<Destination> AddDestination(AddDestinationInput input, [ScopedService] AppDbContext context, CancellationToken cancellationToken)
         {
             var destination = new Destination() { Name = input.Name, Address = input.Address };
-            bool interest = false;
-            try
-            {
-                interest = Boolean.Parse(input.interest);
-            }
-            finally
-            {
-                destination.Interest = interest;
-            }
             context.Destinations.Add(destination);
             await context.SaveChangesAsync(cancellationToken);
             return destination;
@@ -35,15 +26,6 @@ namespace back_end.Graphql.Destinations
             var destination = await context.Destinations.FindAsync(new object[] { int.Parse(input.DestinationId) }, cancellationToken);
             destination.Name = input.Name ?? destination.Name;
             destination.Address = input.Address ?? destination.Address;
-            bool interest = destination.Interest;
-            try
-            {
-                interest = Boolean.Parse(input.interest);
-            }
-            finally
-            {
-                destination.Interest = interest;
-            }
             context.Destinations.Add(destination);
             await context.SaveChangesAsync(cancellationToken);
             return destination;

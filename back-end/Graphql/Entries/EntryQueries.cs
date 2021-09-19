@@ -4,6 +4,7 @@ using HotChocolate;
 using HotChocolate.Types;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -24,10 +25,12 @@ namespace back_end.Graphql.Entries
         {
             return context.Entries.Find(int.Parse(id));
         }
+        [UseAppDbContext]
         public ICollection<Entry> GetEntriesByUserDebug([GraphQLType(typeof(NonNullType<IdType>))] string appuserid, [ScopedService] AppDbContext context)
         {
             return context.Entries.Where(e => e.AppUserId == int.Parse(appuserid)).ToArray<Entry>();
         }
+        [UseAppDbContext]
         public ICollection<Entry> GetEntriesByUser(ClaimsPrincipal claimsPrincipal, [ScopedService] AppDbContext context)
         {
             var appUserIdStr = claimsPrincipal.Claims.First(c => c.Type == "AppUserId").Value;

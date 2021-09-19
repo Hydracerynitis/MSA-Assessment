@@ -15,6 +15,7 @@ namespace back_end.Model
         public string DayArrive { get; set; } = default!;
         [Required]
         public string DayLeave { get; set; } = default!;
+        public bool Interest { get; set; } = false;
         [Required]
         [GraphQLIgnore]
         public int DestinationId { get; set; }

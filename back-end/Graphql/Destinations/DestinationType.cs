@@ -19,7 +19,6 @@ namespace back_end.Graphql.Destinations
             descriptor.Field(l => l.Id).Type<NonNullType<IdType>>();
             descriptor.Field(l => l.Name).Type<NonNullType<StringType>>();
             descriptor.Field(l => l.Address).Type<NonNullType<StringType>>();
-            descriptor.Field(l => l.Interest).Type<NonNullType<BooleanType>>();
             descriptor.Field(l => l.Entries).ResolveWith<Resolver>(r => r.GetEntries(default!, default!, default!)).UseDbContext<AppDbContext>().Type<NonNullType<ListType<NonNullType<EntryType>>>>();
 
         }

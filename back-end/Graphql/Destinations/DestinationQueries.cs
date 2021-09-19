@@ -23,9 +23,5 @@ namespace back_end.Graphql.Destinations
         {
             return context.Destinations.Find(int.Parse(id));
         }
-        public ICollection<Destination> GetInterest([ScopedService] AppDbContext context)
-        {
-            return context.Destinations.Where(d => d.Interest).ToArray<Destination>();
-        }
     }
 }
