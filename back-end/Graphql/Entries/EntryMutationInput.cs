@@ -21,6 +21,15 @@ namespace back_end.Graphql.Entries
         string? DayLeave,
         string? AppUserId,
         string? DestinationId
+    ); 
+    public record SubmitEditEntryInputDebug(
+        [GraphQLType(typeof(NonNullType<IdType>))]
+        string EntryId,
+        string Name,
+        string Address,
+        string Arrive,
+        string Leave,
+        string Interest
     );
     public record EditEntryInput(
         [GraphQLType(typeof(NonNullType<IdType>))]
@@ -28,7 +37,8 @@ namespace back_end.Graphql.Entries
         string Name,
         string Address,
         string Arrive,
-        string Leave
+        string Leave,
+        string Interest
     );
     public record SubmitEntryInput(
         string Name,
