@@ -10,7 +10,7 @@ exports.AppUserstate = void 0;
 //==============================================================
 var AppUserstate;
 (function (AppUserstate) {
-    AppUserstate["CLOSE_CONTACT"] = "CLOSE_CONTACT";
+    AppUserstate["CLOSECONTACT"] = "CLOSECONTACT";
     AppUserstate["INFECTED"] = "INFECTED";
     AppUserstate["NONE"] = "NONE";
     AppUserstate["NORMAL"] = "NORMAL";

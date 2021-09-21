@@ -15,7 +15,6 @@ export const DESTINATION = gql`
         id
         name
         address
-        interest
     }
 `;
 
@@ -24,6 +23,7 @@ export const ENTRY = gql`
         id
         dayArrive
         dayLeave
+        interest
     }
 `;
 export const LOGINPAYLOAD=gql`

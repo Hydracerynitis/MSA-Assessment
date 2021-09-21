@@ -47,6 +47,26 @@ namespace back_end.Graphql.Entries
             return entry;
         }
         [UseAppDbContext]
+        public async Task<Entry> SubmitEditEntryDebug(SubmitEditEntryInputDebug input, [ScopedService] AppDbContext context, CancellationToken cancellationToken)
+        {
+            var entry = await context.Entries.FindAsync(new object[] { int.Parse(input.EntryId) }, cancellationToken);
+            var destination = await context.Destinations.FirstOrDefaultAsync(d => d.Address == input.Address, cancellationToken);
+            if (destination == null)
+            {
+                destination = new Destination() { Name = input.Name, Address = input.Address };
+                context.Destinations.Add(destination);
+            }
+            else
+                destination.Name = input.Name;
+            await context.SaveChangesAsync(cancellationToken);
+            if (entry.DestinationId != destination.Id)
+                entry.DestinationId = destination.Id;
+            entry.DayArrive = input.Arrive;
+            entry.DayLeave = input.Leave;
+            await context.SaveChangesAsync(cancellationToken);
+            return entry;
+        }
+        [UseAppDbContext]
         [Authorize]
         public async Task<Entry> EditEntry(EditEntryInput input, ClaimsPrincipal claimsPrincipal, [ScopedService] AppDbContext context, CancellationToken cancellationToken)
         {
@@ -69,6 +89,20 @@ namespace back_end.Graphql.Entries
                 entry.DestinationId = destination.Id;
             entry.DayArrive = input.Arrive;
             entry.DayLeave = input.Leave;
+            HashSet<int> closecontactId = new HashSet<int>();
+            if (input.Interest == "true")
+            {
+                List<Entry> contacts = context.Entries.Where(e => !e.Interest && e.DestinationId == entry.DestinationId &&
+                           !(e.DayLeave.CompareTo(entry.DayArrive) < 0 || e.DayArrive.CompareTo(entry.DayLeave) > 0)).ToList<Entry>();
+                foreach (Entry contact in contacts)
+                {
+                    contact.Interest = true;
+                    closecontactId.Add(contact.AppUserId);
+                }
+            }
+            await context.SaveChangesAsync(cancellationToken);
+            List<AppUser> appUser = context.AppUsers.Where(a => closecontactId.Contains(a.Id) && a.state == AppUserstate.NORMAL).ToList<AppUser>();
+            appUser.ForEach(a => a.state = AppUserstate.CLOSECONTACT);
             await context.SaveChangesAsync(cancellationToken);
             return entry;
         }
@@ -89,17 +123,22 @@ namespace back_end.Graphql.Entries
             var entry = context.Entries.FirstOrDefault(e => e.DayArrive == input.Arrive && e.AppUserId == int.Parse(appUserIdStr));
             if (entry != null)
                 return entry;
-            entry = new Entry() { DayArrive = input.Arrive, DayLeave = input.Leave, AppUserId = int.Parse(appUserIdStr), DestinationId = destination.Id };
-            bool interest = false;
-            try
-            {
-                interest = Boolean.Parse(input.Interest);
-            }
-            finally
-            {
-                entry.Interest = interest;
-            }
+            entry = new Entry() { DayArrive = input.Arrive, DayLeave = input.Leave, AppUserId = int.Parse(appUserIdStr), DestinationId = destination.Id, Interest=false };
             context.Entries.Add(entry);
+            HashSet<int> closecontactId = new HashSet<int>();
+            if (input.Interest =="true")
+            {
+                List<Entry> contacts = context.Entries.Where(e => !e.Interest && e.DestinationId == entry.DestinationId &&
+                           !(e.DayLeave.CompareTo(entry.DayArrive) < 0 || e.DayArrive.CompareTo(entry.DayLeave) > 0)).ToList<Entry>();
+                foreach (Entry contact in contacts)
+                {
+                    contact.Interest = true;
+                    closecontactId.Add(contact.AppUserId);
+                }
+            }
+            await context.SaveChangesAsync(cancellationToken);
+            List<AppUser> appUser = context.AppUsers.Where(a => closecontactId.Contains(a.Id) && a.state == AppUserstate.NORMAL).ToList<AppUser>();
+            appUser.ForEach(a => a.state = AppUserstate.CLOSECONTACT);
             await context.SaveChangesAsync(cancellationToken);
             return entry;
         }
@@ -118,17 +157,23 @@ namespace back_end.Graphql.Entries
             var entry = context.Entries.FirstOrDefault(e => e.DayArrive == input.Arrive && e.AppUserId== int.Parse(input.appUserId));
             if (entry != null)
                 return entry;
-            entry = new Entry() { DayArrive = input.Arrive, DayLeave = input.Leave, AppUserId = int.Parse(input.appUserId), DestinationId = destination.Id };
-            bool interest = false;
-            try
-            {
-                interest = Boolean.Parse(input.Interest);
-            }
-            finally
-            {
-                entry.Interest = interest;
-            }
+            entry = new Entry() { DayArrive = input.Arrive, DayLeave = input.Leave, AppUserId = int.Parse(input.appUserId), DestinationId = destination.Id,Interest=false };
             context.Entries.Add(entry);
+            HashSet<int> closecontactId = new HashSet<int>();
+            if (input.Interest == "true")
+            {
+                List<Entry> contacts = context.Entries.Where(e => !e.Interest && e.DestinationId == entry.DestinationId &&
+                           !(e.DayLeave.CompareTo(entry.DayArrive) < 0 || e.DayArrive.CompareTo(entry.DayLeave) > 0)).ToList<Entry>();
+                foreach (Entry contact in contacts)
+                {
+                    contact.Interest = true;
+                    closecontactId.Add(contact.AppUserId);
+                }
+            }
+            await context.SaveChangesAsync(cancellationToken);
+            List<AppUser> appUser = context.AppUsers.Where(a => closecontactId.Contains(a.Id) && a.state == AppUserstate.NORMAL).ToList<AppUser>();
+            appUser.ForEach(a => a.state = AppUserstate.CLOSECONTACT);
+            await context.SaveChangesAsync(cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
             return entry;
         }

@@ -8,7 +8,7 @@
 //==============================================================
 
 export enum AppUserstate {
-  CLOSE_CONTACT = "CLOSE_CONTACT",
+  CLOSECONTACT = "CLOSECONTACT",
   INFECTED = "INFECTED",
   NONE = "NONE",
   NORMAL = "NORMAL",

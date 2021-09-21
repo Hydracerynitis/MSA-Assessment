@@ -9,10 +9,12 @@ import { BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-do
 import './App.css';
 import { Entry } from './stories/EntryDiary/EntryDiary';
 import { useQuery } from '@apollo/client';
-import { SELF } from './api/Queries';
+import { ENTRY_USER, SELF } from './api/Queries';
 import { Self } from './api/__generated__/Self';
-import { EditPage } from './stories/EditPage/EditPage';
-import { NoMatchPage } from './stories/NotMatchPage/NoMatchPage';
+import { NoMatch } from './stories/NotMatchPage/NotMatchPage.stories';
+import { Edit } from './Pages/Edit';
+import { entriesByUser } from './api/__generated__/entriesByUser';
+import { EditEntry } from './Pages/EditEntry';
 
 function App() {
   const { loading, error, data } = useQuery<Self>(SELF);
@@ -26,19 +28,22 @@ function App() {
             <Redirect to="/Home" />
           </Route>
           <Route path="/Home" >
-            <Home user={{Name:user.name,ImgUrl:user.imgUrl,state:DecodeEnum(user.state),Entries:[]}} interest={[]} />
+            <Home user={{Name:user.name,ImgUrl:user.imgUrl,state:DecodeEnum(user.state)}} />
           </Route>
           <Route path="/Submit" >
-            <Submit user={{Name:user.name,ImgUrl:user.imgUrl,state:DecodeEnum(user.state),Entries:[]}} interest={[]} />
+            <Submit user={{Name:user.name,ImgUrl:user.imgUrl,state:DecodeEnum(user.state)}} />
           </Route>
           <Route path="/Entry">
-            <Diary user={{Name:user.name,ImgUrl:user.imgUrl,state:DecodeEnum(user.state),Entries:[]}} interest={[]} />
+            <Diary user={{Name:user.name,ImgUrl:user.imgUrl,state:DecodeEnum(user.state)}}/>
           </Route>
           <Route path="/Edit">
-            <EditPage Name={user.name} ImgUrl={user.imgUrl} state={DecodeEnum(user.state)}/>
+            <Edit user={{Name:user.name,ImgUrl:user.imgUrl,state:DecodeEnum(user.state)}} />
+          </Route>
+          <Route path="/EditEntry">
+            <EditEntry user={{Name:user.name,ImgUrl:user.imgUrl,state:DecodeEnum(user.state)}} />
           </Route>
           <Route path="*">
-            <NoMatchPage />
+            <NoMatch />
           </Route>
         </Switch>
       </Router>
@@ -46,5 +51,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;

@@ -4,34 +4,25 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: editEntry
+// GraphQL query operation: entriesByUser
 // ====================================================
 
-export interface editEntry_editEntry_destination {
+export interface entriesByUser_entriesByUser_destination {
   __typename: "Destination";
   id: string;
   name: string;
   address: string;
 }
 
-export interface editEntry_editEntry {
+export interface entriesByUser_entriesByUser {
   __typename: "Entry";
   id: string;
   dayArrive: string;
   dayLeave: string;
   interest: boolean;
-  destination: editEntry_editEntry_destination;
+  destination: entriesByUser_entriesByUser_destination;
 }
 
-export interface editEntry {
-  editEntry: editEntry_editEntry;
-}
-
-export interface editEntryVariables {
-  entryId: string;
-  name: string;
-  address: string;
-  arrive: string;
-  leave: string;
-  interest: string;
+export interface entriesByUser {
+  entriesByUser: entriesByUser_entriesByUser[];
 }

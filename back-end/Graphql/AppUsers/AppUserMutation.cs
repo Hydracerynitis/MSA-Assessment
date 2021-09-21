@@ -37,16 +37,38 @@ namespace back_end.Graphql.AppUsers
             var AppUser = await context.AppUsers.FindAsync(new object[] { int.Parse(input.id) }, cancellationToken);
             AppUser.Name = input.Name ?? AppUser.Name;
             AppUser.ImgUrl = input.ImgUrl ?? AppUser.ImgUrl;
-            AppUserstate state = AppUser.state;
-            try
+            AppUserstate Initstate = AppUser.state;
+            AppUserstate Changestate = AppUserstate.NONE;
+            if (input.state != null)
             {
-                state = (AppUserstate)Enum.Parse(typeof(AppUserstate), input.state);
+                Changestate = (AppUserstate)Enum.Parse(typeof(AppUserstate), input.state);
+                AppUser.state = Changestate;
             }
-            finally
+            if (Initstate == AppUserstate.NORMAL && Changestate == AppUserstate.INFECTED)
             {
-                AppUser.state = state;
+                List<Entry> entries = context.Entries.Where(e => e.AppUserId == AppUser.Id).ToList<Entry>();
+                HashSet<int> closecontactId = new HashSet<int>();
+                foreach (Entry entry in entries)
+                {
+                    List<Entry> contacts = context.Entries.Where(e => !e.Interest && e.DestinationId == entry.DestinationId &&
+                            !(e.DayLeave.CompareTo(entry.DayArrive) < 0 || e.DayArrive.CompareTo(entry.DayLeave) > 0)).ToList<Entry>();
+                    foreach (Entry contact in contacts)
+                    {
+                        contact.Interest = true;
+                        closecontactId.Add(contact.AppUserId);
+                    }
+                }
+                await context.SaveChangesAsync(cancellationToken);
+                List<AppUser> appUser = context.AppUsers.Where(a => closecontactId.Contains(a.Id) && a.state == AppUserstate.NORMAL).ToList<AppUser>();
+                appUser.ForEach(a => a.state = AppUserstate.CLOSECONTACT);
+                await context.SaveChangesAsync(cancellationToken);
             }
-            //context.AppUsers.Add(AppUser);
+            else if ((Initstate == AppUserstate.CLOSECONTACT || Initstate == AppUserstate.INFECTED) && Changestate == AppUserstate.NORMAL)
+            {
+                List<Entry> entries = context.Entries.Where(e => e.AppUserId == AppUser.Id).ToList<Entry>();
+                entries.ForEach(e => e.Interest = false);
+                await context.SaveChangesAsync(cancellationToken);
+            }
             await context.SaveChangesAsync(cancellationToken);
             return AppUser;
         }
@@ -58,17 +80,39 @@ namespace back_end.Graphql.AppUsers
             var AppUser = await context.AppUsers.FindAsync(new object[] { int.Parse(AppUserIdStr) }, cancellationToken);
             AppUser.Name = input.Name ?? AppUser.Name;
             AppUser.ImgUrl = input.ImgUrl ?? AppUser.ImgUrl;
-            AppUserstate state = AppUser.state;
-            try
+            AppUserstate Initstate = AppUser.state;
+            AppUserstate Changestate = AppUserstate.NONE;
+            if (input.state != null)
             {
-                state = (AppUserstate)Enum.Parse(typeof(AppUserstate), input.state);
+                Changestate = (AppUserstate)Enum.Parse(typeof(AppUserstate), input.state);
+                AppUser.state = Changestate;
             }
-            finally
-            {
-                AppUser.state = state;
-            }
-            //context.AppUsers.Add(AppUser);
             await context.SaveChangesAsync(cancellationToken);
+            if (Initstate == AppUserstate.NORMAL && Changestate == AppUserstate.INFECTED)
+            {
+                List<Entry> entries = context.Entries.Where(e => e.AppUserId == AppUser.Id).ToList<Entry>();
+                HashSet<int> closecontactId = new HashSet<int>();
+                foreach (Entry entry in entries)
+                {   
+                    List<Entry> contacts = context.Entries.Where(e => !e.Interest && e.DestinationId == entry.DestinationId &&
+                            !(e.DayLeave.CompareTo(entry.DayArrive) < 0 || e.DayArrive.CompareTo(entry.DayLeave) > 0)).ToList<Entry>();
+                    foreach(Entry contact in contacts)
+                    {
+                        contact.Interest = true;
+                        closecontactId.Add(contact.AppUserId);
+                    }
+                }
+                await context.SaveChangesAsync(cancellationToken);
+                List<AppUser> appUser = context.AppUsers.Where(a => closecontactId.Contains(a.Id) && a.state==AppUserstate.NORMAL).ToList<AppUser>();
+                appUser.ForEach(a => a.state = AppUserstate.CLOSECONTACT);
+                await context.SaveChangesAsync(cancellationToken);
+            }
+            else if((Initstate ==AppUserstate.CLOSECONTACT ||Initstate==AppUserstate.INFECTED) && Changestate == AppUserstate.NORMAL)
+            {
+                List<Entry> entries = context.Entries.Where(e => e.AppUserId == AppUser.Id).ToList<Entry>();
+                entries.ForEach(e => e.Interest = false);
+                await context.SaveChangesAsync(cancellationToken);
+            }
             return AppUser;
         }
         [UseAppDbContext]

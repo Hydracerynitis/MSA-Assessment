@@ -6,16 +6,20 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import './EntryDiary.css'
+import { userstate } from '../Header/UserState';
+import EditIcon from '@material-ui/icons/Edit';
 
 export interface Entry{
+    Id:string,
     Location:string,
     Address:string,
     Arrive:string,
     Leave:string
+    interest:boolean
 }
 export interface Diary{
     Entires:Entry[],
-    interests:string[]
+    state: userstate
 }
 const createStyle = makeStyles((theme: Theme) =>(
     createStyles({
@@ -71,7 +75,7 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
       </div>
     );
   }
-  
+
 
 export const EntryDiary= (input:Diary)=>{
     const classes=createStyle()
@@ -90,31 +94,42 @@ export const EntryDiary= (input:Diary)=>{
             <Table stickyHeader aria-label="entry diary">
                 <TableHead>
                     <TableRow>
-                        <TableCell key="Name" align="left" style={{minWidth:170}}>Location Name</TableCell>
-                        <TableCell key="Address" align="left" style={{minWidth:270}}>Location Address</TableCell>
-                        <TableCell key="Name" align="left" style={{minWidth:170}}>Arriving Time</TableCell>
-                        <TableCell key="Name" align="left" style={{minWidth:170}}>Leaving Time</TableCell>
+                        <TableCell key="Name" align="left" style={{minWidth:150}}>Location Name</TableCell>
+                        <TableCell key="Address" align="left" style={{minWidth:250}}>Location Address</TableCell>
+                        <TableCell key="Name" align="left" style={{minWidth:100}}>Arriving Time</TableCell>
+                        <TableCell key="Name" align="left" style={{minWidth:100}}>Leaving Time</TableCell>
+                        <TableCell  style={{minWidth:40}}/>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {sort.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row)=>{
-                        if(input.interests.includes(row.Location)){
+                        if(input.state===userstate.INFECTED || row.interest){
                             return(                 
                                 <IntrestedRow role="checkbox" key={row.Arrive}>
-                                    <TableCell key="Name" align="left" style={{minWidth:170, color:"white"}}>{row.Location}</TableCell>
-                                    <TableCell key="Address" align="left" style={{minWidth:270, color:"white"}}>{row.Address}</TableCell>
+                                    <TableCell key="Name" align="left" style={{minWidth:150, color:"white"}}>{row.Location}</TableCell>
+                                    <TableCell key="Address" align="left" style={{minWidth:250, color:"white"}}>{row.Address}</TableCell>
                                     <TableCell key="Name" align="left" style={{minWidth:100, color:"white"}}>{row.Arrive.replace("T"," ")}</TableCell>
                                     <TableCell key="Name" align="left" style={{minWidth:100,color:"white"}}>{row.Leave.replace("T"," ")}</TableCell>
+                                    <TableCell style={{minWidth:40}}>
+                                      <IconButton href={"/EditEntry/?entry="+row.Id}>
+                                        <EditIcon/>
+                                      </IconButton>
+                                    </TableCell >
                                 </IntrestedRow>
                             )
                         }
                         else{
                             return(                          
                                 <TableRow role="checkbox" key={row.Arrive}>
-                                    <TableCell key="Name" align="left" style={{minWidth:170}}>{row.Location}</TableCell>
-                                    <TableCell key="Address" align="left" style={{minWidth:270}}>{row.Address}</TableCell>
+                                    <TableCell key="Name" align="left" style={{minWidth:150}}>{row.Location}</TableCell>
+                                    <TableCell key="Address" align="left" style={{minWidth:250}}>{row.Address}</TableCell>
                                     <TableCell key="Name" align="left" style={{minWidth:100}}>{row.Arrive.replace("T"," ")}</TableCell>
                                     <TableCell key="Name" align="left" style={{minWidth:100}}>{row.Leave.replace("T"," ")}</TableCell>
+                                    <TableCell style={{minWidth:40}}>
+                                      <IconButton href={"/EditEntry/?entry="+row.Id}>
+                                        <EditIcon/>
+                                      </IconButton>
+                                    </TableCell >
                                 </TableRow>
                             )
                         }

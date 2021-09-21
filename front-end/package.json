@@ -29,7 +29,8 @@
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "testscript": "jest",
-    "generate": "apollo service:download --endpoint=https://hydracerynitis-sql.azurewebsites.net/graphql/ graphql-schema.json | apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --tagName=gql"
+    "schema":"apollo service:download --endpoint=https://hydracerynitis-sql.azurewebsites.net/graphql/ graphql-schema.json",
+    "generate": "apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --tagName=gql"
   },
   "eslintConfig": {
     "extends": [

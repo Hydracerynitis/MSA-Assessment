@@ -12,5 +12,4 @@ export interface destinationFields {
   id: string;
   name: string;
   address: string;
-  interest: boolean;
 }

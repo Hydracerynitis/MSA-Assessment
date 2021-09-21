@@ -12,4 +12,5 @@ export interface entryFields {
   id: string;
   dayArrive: string;
   dayLeave: string;
+  interest: boolean;
 }

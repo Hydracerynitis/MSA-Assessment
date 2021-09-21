@@ -12,6 +12,7 @@ export interface submitEntry_submitEntry {
   id: string;
   dayArrive: string;
   dayLeave: string;
+  interest: boolean;
 }
 
 export interface submitEntry {
